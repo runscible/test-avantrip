@@ -1,26 +1,13 @@
 import React from 'react';
-import {gql} from "apollo-boost";
-import {useQuery} from 'react-apollo';
 import {makeStyles} from "@material-ui/core";
+import './index.scss';
 import {Card,
         CardContent,
-        CardMedia,
         Typography,
         CircularProgress} from "@material-ui/core";
-
+import {contextApp} from "../../pages/Travels";
 import {cardTravel} from '../common/styleVariables';
 
-const queryTravelData = gql`{
-                          allCards{
-                            id
-                            imgUrl
-                            link
-                            price
-                            scale
-                            stayId
-                            description
-                          }
-                        }`;
 
 const useStyles = makeStyles({
     ...cardTravel
@@ -28,19 +15,38 @@ const useStyles = makeStyles({
 
 export function TravelCard() {
     const classes = useStyles();
-    const {loading, error, data} = useQuery(queryTravelData);
-    if (loading) return <CircularProgress/>;
-    if (data){
-        return data.allCards.map(cardTravel => {
-            return (
-                <Card className={classes.card} key={cardTravel.id}>
-                    <img src={cardTravel.imgUrl}/>
-                    <CardContent>
-                        <Typography>{cardTravel.description}</Typography>
-                        <Typography>{cardTravel.scale}</Typography>
-                    </CardContent>
-                </Card>
-            )
-        })
-    }
+    return <>
+            <contextApp.Consumer>
+                {
+                    contextData => {
+                        const data = contextData.travelAllData;
+                        if (Array.isArray(data)){
+                            return data.map(cardTravel => {
+                                return (
+                                    <Card className={classes.card} key={cardTravel.id}>
+                                        <img src={cardTravel.imgUrl}/>
+                                        <CardContent className="content">
+                                            <div className="container-description">
+                                                <Typography variant="caption">{cardTravel.scale}</Typography>
+                                                <Typography variant="subtitle2">{cardTravel.description}</Typography>
+                                            </div>
+                                            <div className="container-price">
+                                                <Typography display="block" variant="caption">Precio desde</Typography>
+                                                <Typography variant="subtitle2">$ {cardTravel.price}</Typography>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                )
+                            })
+                        } else {
+                            return <CircularProgress/>
+                        }
+                    }
+                }
+            </contextApp.Consumer>
+          </>
 }
+
+
+
+

@@ -1,1 +1,23 @@
 
+.content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  .container-description{
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+  .container-price{
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  // no me siento orgulloso de esto
+  // TODO: arreglar el theme para que sea acorde al patrón de la página.
+  .MuiTypography-subtitle2{
+    color: #e1020b;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+}
