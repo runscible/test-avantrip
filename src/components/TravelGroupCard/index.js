@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Card,
         CardContent,
         Typography,
@@ -15,23 +15,23 @@ const useStyles = makeStyles({
 // #3a94d8 (color de texto resaltado)
 export function TravelGroupCard (){
     const classes = useStyles();
-     return (<>
-                 <contextApp.Consumer>
-                     {
-                         consumerData => {
-                             const data = consumerData.stayData;
-                             if (Array.isArray(data)){
-                               return data.map(staydata => {
-                                     return (<Card className="card-grup-item" key={staydata.id} className={classes.card}>
-                                                 <CardContent>
-                                                     <Typography variant="caption">{staydata.label}</Typography>
-                                                     <Typography className={classes.priceCard} variant="body1">Desde $ {staydata.bestPrice}</Typography>
-                                                 </CardContent>
-                                             </Card>)
-                                 })
-                             }
-                         }
-                     }
-                 </contextApp.Consumer>
-             </>);
+    const {stayData, filterEvent} = useContext(contextApp);
+     if (Array.isArray(stayData)){
+       return stayData.map(stayElem => {
+             return (<Card
+                        value={stayElem.customId}
+                        onClick={()=> filterEvent(stayElem.customId)}
+                        className="card-grup-item"
+                        key={stayElem.id}
+                        className={classes.card}>
+                         <CardContent>
+                             <Typography variant="caption">{stayElem.label}</Typography>
+                             <Typography className={classes.priceCard} variant="body1">Desde $ {stayElem.bestPrice}</Typography>
+                         </CardContent>
+                     </Card>);
+         })
+     } else {
+         return <CircularProgress/>
+     }
+
 }
