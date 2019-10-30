@@ -1,15 +1,46 @@
 import React from 'react';
+import {gql} from "apollo-boost";
+import {useQuery} from 'react-apollo';
+import {makeStyles} from "@material-ui/core";
 import {Card,
-        Typography} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { travelGroup } from '../common/styleVariables';
+        CardContent,
+        CardMedia,
+        Typography,
+        CircularProgress} from "@material-ui/core";
+
+import {cardTravel} from '../common/styleVariables';
+
+const queryTravelData = gql`{
+                          allCards{
+                            id
+                            imgUrl
+                            link
+                            price
+                            scale
+                            stayId
+                            description
+                          }
+                        }`;
 
 const useStyles = makeStyles({
-    ...travelGroup
+    ...cardTravel
 });
-export function TravelCard (){
+
+export function TravelCard() {
     const classes = useStyles();
-    return <Card className={classes.card}>
-                <Typography>test</Typography>
-            </Card>;
+    const {loading, error, data} = useQuery(queryTravelData);
+    if (loading) return <CircularProgress/>;
+    if (data){
+        return data.allCards.map(cardTravel => {
+            return (
+                <Card className={classes.card} key={cardTravel.id}>
+                    <img src={cardTravel.imgUrl}/>
+                    <CardContent>
+                        <Typography>{cardTravel.description}</Typography>
+                        <Typography>{cardTravel.scale}</Typography>
+                    </CardContent>
+                </Card>
+            )
+        })
+    }
 }
