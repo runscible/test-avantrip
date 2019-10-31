@@ -2,7 +2,7 @@
   "name": "test-avantrip",
   "version": "1.0.0",
   "description": "",
-  "main": ".hack.sh",
+  "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --mode development"
   },
