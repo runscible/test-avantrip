@@ -1,6 +1,5 @@
-# hackhackbitch
+// hackhackbitch
 
-echo"
 hackhackhack                        hackhackhack
 hackhackhack                        hackhackhack
 hackhackhack                        hackhackhack
@@ -11,5 +10,3 @@ hackhackhack                        hackhackhack
 hackhackhack                        hackhackhack
 hackhackhack                        hackhackhack
 hackhackhack                        hackhackhack
-"
-echo "Initializing to much hack.."
