@@ -4,8 +4,8 @@ import {Card,
         Typography,
         CircularProgress} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { travelGroup } from '../common/styleVariables';
-import {contextApp} from "../../pages/Travels";
+import { travelGroup } from '../../common/styleVariables';
+import {contextApp} from "../../../pages/Travels";
 
 const useStyles = makeStyles({
     ...travelGroup

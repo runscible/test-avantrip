@@ -1,24 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {TravelCard} from "../../components/TravelGroupCard";
+import {TravelCard} from "../../components/Header/TravelGroupCard";
 import {Header} from "../../components/Header";
 import {Body} from '../../components/Body';
-import {getAllTravelData, getDataStay} from "../../components/business/client";
+import {getAllTravelData, getDataStay, getFilteredTravel} from "../../components/business/client";
 
 export const contextApp = React.createContext();
 
 export function Travels(){
-    const travelData = getAllTravelData('');
+    const travelData = getFilteredTravel('3');
     const stayData = getDataStay();
 
-    const filterTravelData = ev =>  {
+    const filterEvent = ev =>  {
         getAllTravelData(ev);
     }
     return (<>
                 <contextApp.Provider value={
                 {
-                    travelData: travelData,
-                    stayData: stayData,
-                    filterEvent: filterTravelData
+                    travelData,
+                    stayData,
+                    filterEvent
                 }}>
                         <Header/>
                         <Body/>
