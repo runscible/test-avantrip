@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Card,
         CardContent,
         Typography,
         CircularProgress} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { travelGroup } from '../../common/styleVariables';
-import {contextApp} from "../../../pages/Travels";
-
+import { Context } from '../../business/Context';
+import { queryFilteredTravelData, queryTravelData, client  } from '../../business/client';
 const useStyles = makeStyles({
     ...travelGroup
 });
@@ -15,12 +15,27 @@ const useStyles = makeStyles({
 // #3a94d8 (color de texto resaltado)
 export function TravelGroupCard (){
     const classes = useStyles();
-    const {stayData, filterEvent} = useContext(contextApp);
-     if (Array.isArray(stayData)){
-       return stayData.map(stayElem => {
+    const { state, dispatch }  = useContext(Context);
+    const { stayData } = state;
+    const filterTravels = async id => {
+        if (id === '0') {
+            const allData = await client.request(queryTravelData);
+            // 0 es el caso sin filtros para las tarjetas
+            dispatch({ type: 'FILTER_TRAVELS', payload:  allData })
+
+        } else {
+            const filteredData = await client.request(queryFilteredTravelData,  {
+                stayId: `${id}`
+                }
+            )
+            dispatch({ type: 'FILTER_TRAVELS', payload:  filteredData })
+        }
+    }
+    if (stayData){
+       return stayData.allStayDatas.map(stayElem => {
              return (<Card
                         value={stayElem.customId}
-                        onClick={()=> filterEvent(stayElem.customId)}
+                        onClick={()=> filterTravels(stayElem.customId)}
                         className="card-grup-item"
                         key={stayElem.id}
                         className={classes.card}>
@@ -33,5 +48,6 @@ export function TravelGroupCard (){
      } else {
          return <CircularProgress/>
      }
+    return <pre>culo</pre>
 
 }

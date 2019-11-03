@@ -5,7 +5,7 @@ import {Card,
         CardContent,
         Typography,
         CircularProgress} from "@material-ui/core";
-import {contextApp} from "../../../pages/Travels";
+import { Context } from '../../business/Context';        
 import {cardTravel} from '../../common/styleVariables';
 
 
@@ -14,10 +14,12 @@ const useStyles = makeStyles({
 });
 
 export function TravelCard() {
+    const { state } = useContext(Context);
+    const { travelData } = state;
+    console.log('travel data', {travelData})
     const classes = useStyles();
-    const {travelData} = useContext(contextApp);
-        if (Array.isArray(travelData)){
-            return travelData.map(cardTravel => {
+        if (travelData){
+            return travelData.allCards.map(cardTravel => {
                 return (
                     <Card className={classes.card} key={cardTravel.id}>
                         <img src={cardTravel.imgUrl}/>

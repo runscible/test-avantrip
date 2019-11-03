@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useContext, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 import './index.scss';
 import {Travels} from "./pages/Travels";
+
 const elem = document.getElementById('root');
-const client = new ApolloClient({
-    uri: 'https://api.graph.cool/simple/v1/cjtk3okib547g0182680rna24'
-});
+import { client } from './components/business/client';
+import { Context } from './components/business/Context';
+import { Reducer } from './components/business/Reducer';
+
 
 function App (){
+    const initialState = useContext(Context);
+    const [state, dispatch] = useReducer(Reducer, initialState);
     return (
         <>
-            <Travels/>
+            <Context.Provider value={{ state, dispatch }}>  
+                <Travels/>
+            </Context.Provider>
         </>
     )
 }
